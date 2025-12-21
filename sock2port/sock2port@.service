@@ -1,0 +1,13 @@
+[Unit]
+Description=Proxy from TCP :%i to Unix socket /run/podman/port%i.sock
+Requires=sock2port@%i.socket
+After=sock2port@%i.socket
+
+[Service]
+Type=notify
+ExecStartPre=/bin/mkdir -p /run/podman
+ExecStartPre=/bin/chmod 777 /run/podman
+ExecStart=/usr/lib/systemd/systemd-socket-proxyd /run/podman/port%i.sock
+
+[Install]
+WantedBy=multi-user.target
