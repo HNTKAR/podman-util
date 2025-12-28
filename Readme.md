@@ -1,5 +1,16 @@
 # podman_util
 
+## selinux
+
+
+### my_proxy
+```
+# ポリシーをインストール
+make -f /usr/share/selinux/devel/Makefile my_proxy.pp
+sudo semodule -i my_proxy.pp
+```
+
+
 ## sock2port
 
 sock2port is a systemd service that forwards traffic from a TCP port to a Unix socket.
@@ -7,6 +18,11 @@ sock2port is a systemd service that forwards traffic from a TCP port to a Unix s
 ### Usage
 
 ```bash
+
+# サービスを登録
+sudo cp sock2port/sock2port* /usr/local/lib/systemd/system/
+systemctl daemon-reload
+
 # SELinux設定
 sudo setsebool -P systemd_socket_proxyd_bind_any 1
 
