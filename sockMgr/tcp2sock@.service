@@ -1,0 +1,12 @@
+[Unit]
+Description=Proxy from TCP :%i to Unix socket /home/podman/run/port%i_tcp.sock
+Requires=tcp2sock@%i.socket
+After=tcp2sock@%i.socket
+
+[Service]
+Type=notify
+SELinuxContext=system_u:system_r:my_tcp_proxy_t:s0
+ExecStart=/usr/lib/systemd/systemd-socket-proxyd /home/podman/run/port%i_tcp.sock
+
+[Install]
+WantedBy=multi-user.target

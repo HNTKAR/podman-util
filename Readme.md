@@ -6,8 +6,8 @@
 ### my_proxy
 ```bash
 # ポリシーをインストール
-make -f /usr/share/selinux/devel/Makefile my_proxy.pp
-sudo semodule -i my_proxy.pp
+make -f /usr/share/selinux/devel/Makefile my_{tcp,udp}_proxy.pp
+sudo semodule -i my_{tcp,udp}_proxy.pp
 ```
 
 #### _debug_
@@ -22,26 +22,26 @@ grep-r $MACRO /usr/share/selinux/devel/include/
 # /usr/share/selinux/devel/include/system/init.if
 ```
 
-## sock2port
+## sockMgr
 
-sock2port is a systemd service that forwards traffic from a TCP port to a Unix socket.
+sockMgr is a systemd service that forwards traffic from a TCP/UDP port to a Unix socket.
 
 ### Usage
 
 ```bash
 
 # サービスを登録
-sudo cp sock2port/sock2port* /usr/local/lib/systemd/system/
+sudo cp sockMgr/* /usr/local/lib/systemd/system/
 sudo systemctl daemon-reload
 
-# SELinux設定
-sudo setsebool -P systemd_socket_proxyd_bind_any 1
+# SELinux設定(独自policyを使用しているので不要)
+# sudo setsebool -P systemd_socket_proxyd_bind_any 1
 
 # 80/tcpをプロキシしたい場合
-systemctl start sock2port@80.socket
-systemctl enable sock2port@80.socket
+systemctl start tcp2sock@80.socket
+systemctl enable tcp2sock@80.socket
 
-# 443/tcpをプロキシしたい場合
-systemctl start sock2port@443.socket
-systemctl enable sock2port@443.socket
+# 554/udpをプロキシしたい場合
+systemctl start udp2sock@554.socket
+systemctl enable udp2sock@554.socket
 ```
