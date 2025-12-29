@@ -4,9 +4,6 @@ type my_proxy_t;
 type my_proxy_exec_t;
 
 gen_require(`
-    type init_t;
-    attribute port_type;
-    type node_t;
     type systemd_socket_proxyd_exec_t;
     type nsfs_t;
     type kmsg_device_t;
@@ -19,9 +16,11 @@ gen_require(`
 ')
 
 init_daemon_domain(my_proxy_t, my_proxy_exec_t)
+corenet_tcp_bind_all_ports(my_proxy_t)
+corenet_udp_bind_all_ports(my_proxy_t)
+corenet_tcp_bind_all_nodes(my_proxy_t)
+corenet_udp_bind_all_nodes(my_proxy_t)
 
-allow my_proxy_t port_type:tcp_socket name_bind;
-allow my_proxy_t node_t:tcp_socket node_bind;
 allow my_proxy_t systemd_socket_proxyd_exec_t:file { entrypoint map read execute};
 allow my_proxy_t nsfs_t:file getattr;
 allow my_proxy_t proc_t:file { read open getattr };
@@ -30,6 +29,7 @@ allow my_proxy_t syslogd_var_run_t:dir search;
 allow my_proxy_t syslogd_var_run_t:sock_file write;
 allow my_proxy_t kernel_t:unix_dgram_socket sendto;
 allow my_proxy_t self:tcp_socket { getattr getopt accept };
+allow my_proxy_t self:udp_socket { getattr getopt accept };
 allow my_proxy_t container_file_t:dir search;
 allow my_proxy_t container_file_t:sock_file write;
 allow my_proxy_t container_t:unix_stream_socket connectto;
@@ -38,3 +38,4 @@ allow my_proxy_t kmsg_device_t:chr_file { write open };
 
 # Failed to start sock2port@*.service の回避
 allow my_proxy_t self:tcp_socket {read write};
+allow my_proxy_t self:udp_socket {read write};

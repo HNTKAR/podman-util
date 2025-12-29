@@ -4,14 +4,22 @@
 
 
 ### my_proxy
-```
+```bash
 # ポリシーをインストール
 make -f /usr/share/selinux/devel/Makefile my_proxy.pp
 sudo semodule -i my_proxy.pp
 ```
+
 #### _debug_
-```
+```bash
 sudo tail -F /var/log/audit/audit.log | grep avc
+grep-r $MACRO /usr/share/selinux/devel/include/
+
+# corenet library
+# /usr/share/selinux/devel/include/kernel/corenetwork.if
+
+# init library
+# /usr/share/selinux/devel/include/system/init.if
 ```
 
 ## sock2port
