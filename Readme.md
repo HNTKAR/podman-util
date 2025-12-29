@@ -9,7 +9,10 @@
 make -f /usr/share/selinux/devel/Makefile my_proxy.pp
 sudo semodule -i my_proxy.pp
 ```
-
+#### _debug_
+```
+sudo tail -F /var/log/audit/audit.log | grep avc
+```
 
 ## sock2port
 
@@ -21,7 +24,7 @@ sock2port is a systemd service that forwards traffic from a TCP port to a Unix s
 
 # サービスを登録
 sudo cp sock2port/sock2port* /usr/local/lib/systemd/system/
-systemctl daemon-reload
+sudo systemctl daemon-reload
 
 # SELinux設定
 sudo setsebool -P systemd_socket_proxyd_bind_any 1
