@@ -1,0 +1,36 @@
+policy_module(my_tcp_proxy, 1.0)
+
+type my_tcp_proxy_t;
+type my_tcp_proxy_exec_t;
+
+gen_require(`
+    type systemd_socket_proxyd_exec_t;
+    type nsfs_t;
+    type kmsg_device_t;
+    type proc_t;
+    type syslogd_var_run_t;
+    type cgroup_t;
+    type kernel_t;
+    type container_t;
+    type container_file_t;
+')
+
+init_daemon_domain(my_tcp_proxy_t, my_tcp_proxy_exec_t)
+corenet_tcp_bind_all_ports(my_tcp_proxy_t)
+corenet_tcp_bind_all_nodes(my_tcp_proxy_t)
+
+allow my_tcp_proxy_t systemd_socket_proxyd_exec_t:file { entrypoint map read execute};
+allow my_tcp_proxy_t nsfs_t:file getattr;
+allow my_tcp_proxy_t proc_t:file { read open getattr };
+allow my_tcp_proxy_t self:unix_dgram_socket { create getopt setopt connect};
+allow my_tcp_proxy_t syslogd_var_run_t:dir search;
+allow my_tcp_proxy_t syslogd_var_run_t:sock_file write;
+allow my_tcp_proxy_t kernel_t:unix_dgram_socket sendto;
+allow my_tcp_proxy_t self:tcp_socket { getattr getopt accept };
+allow my_tcp_proxy_t container_file_t:dir search;
+allow my_tcp_proxy_t container_file_t:sock_file write;
+allow my_tcp_proxy_t container_t:unix_stream_socket connectto;
+allow my_tcp_proxy_t kmsg_device_t:chr_file { write open };
+
+# Failed to start sock2port@*.service の回避
+allow my_tcp_proxy_t self:tcp_socket {read write};

@@ -1,0 +1,8 @@
+[Unit]
+Description=Forward UDP port %i traffic to Unix socket
+
+[Socket]
+ListenDatagram=%i
+
+[Install]
+WantedBy=sockets.target

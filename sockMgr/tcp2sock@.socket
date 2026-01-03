@@ -1,5 +1,5 @@
 [Unit]
-Description=Forward port %i traffic to Unix socket
+Description=Forward TCP port %i traffic to Unix socket
 
 [Socket]
 ListenStream=%i
