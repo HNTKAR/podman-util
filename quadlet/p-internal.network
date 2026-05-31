@@ -1,0 +1,6 @@
+[Unit]
+Description=Internal Network
+
+[Network]
+NetworkName=internal
+ServiceName=pn-internal

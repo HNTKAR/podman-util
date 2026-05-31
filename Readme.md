@@ -45,3 +45,12 @@ systemctl enable tcp2sock@80.socket
 systemctl start udp2sock@554.socket
 systemctl enable udp2sock@554.socket
 ```
+
+```bash
+# podmanの初期設定
+cd /PATH/TO/podman-util
+mkdir -p ~/.config/containers/systemd
+cp quadlet/p-* ~/.config/containers/systemd/
+systemctl --user daemon-reload
+systemctl --user start pn-internal
+```
