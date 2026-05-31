@@ -53,4 +53,5 @@ mkdir -p ~/.config/containers/systemd
 cp quadlet/p-* ~/.config/containers/systemd/
 systemctl --user daemon-reload
 systemctl --user start pn-internal
+systemctl --user start pn-external
 ```

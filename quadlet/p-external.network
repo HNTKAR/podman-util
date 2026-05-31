@@ -1,0 +1,6 @@
+[Unit]
+Description=External Network
+
+[Network]
+NetworkName=external
+ServiceName=pn-external
