@@ -54,4 +54,6 @@ cp quadlet/p-* ~/.config/containers/systemd/
 systemctl --user daemon-reload
 systemctl --user start pn-internal
 systemctl --user start pn-external
+# expose cloudflared security token SECURITY_TOKEN
+# systemctl --user start pc-cloudflared@SECURITY_TOKEN
 ```

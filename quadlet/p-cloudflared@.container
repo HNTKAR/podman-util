@@ -1,0 +1,13 @@
+[Unit]
+Description=cloudflared Container
+
+[Container]
+Image=cloudflare/cloudflared:latest
+ContainerName=cloudflared
+Environment=CLOUDFLARED_TUNNEL=PASSWORD
+ServiceName=pc-cloudflared@
+Network=p-external.network
+Exec=tunnel --no-autoupdate run --token %i
+
+[Install]
+WantedBy=multi-user.target
